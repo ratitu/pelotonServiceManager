@@ -10,15 +10,15 @@ See: `.planning/PROJECT.md` (updated 2026-11-10)
 ## Active Milestone
 
 - **Milestone:** v1.0 MVP
-- **Current Phase:** Phase 1 (Ready to start)
-- **Status:** Initialized
+- **Current Phase:** Phase 2: CLI Commands & Financial Balancing
+- **Status:** Phase 1 Complete
 
 ## Phase Progress
 
-- [ ] Phase 1: Project Scaffolding & Core SQLite Storage
+- [x] Phase 1: Project Scaffolding & Core SQLite Storage
 - [ ] Phase 2: CLI Commands & Financial Balancing
 - [ ] Phase 3: Interactive TUI Dashboard (Desktop Workbench)
 - [ ] Phase 4: Embedded LAN Web Server & Android Mobile Interface
 
 ---
-*Last updated: 2026-11-10 after project initialization*
+*Last updated: 2026-11-10 after Phase 1 completion*
