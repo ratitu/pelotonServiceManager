@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/mattn/go-isatty"
 	"peloton/internal/cli"
 )
 
@@ -45,6 +46,14 @@ func main() {
 		return
 	}
 	if showHelp && len(subArgs) == 0 {
+		app.PrintHelp()
+		return
+	}
+
+	if len(subArgs) == 0 {
+		if isatty.IsTerminal(os.Stdout.Fd()) || isatty.IsCygwinTerminal(os.Stdout.Fd()) {
+			os.Exit(app.RunTUI())
+		}
 		app.PrintHelp()
 		return
 	}

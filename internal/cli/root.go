@@ -5,8 +5,10 @@ import (
 	"io"
 	"os"
 
+	tea "github.com/charmbracelet/bubbletea"
 	"peloton/internal/config"
 	"peloton/internal/store/sqlite"
+	"peloton/internal/tui"
 )
 
 // App manages dependency injection and command execution for the CLI.
@@ -71,6 +73,7 @@ GLOBAL OPTIONS:
   --version, -v    Show software version
 
 COMMANDS:
+  tui              Launch interactive desktop workbench dashboard (default when no args)
   client           Manage bicycle owners and client profiles
     add            Register a new client
     list           List all clients in the system
@@ -106,6 +109,8 @@ func (app *App) Run(args []string) int {
 	case "--version", "-v", "version":
 		fmt.Fprintln(app.Stdout, "Peloton Service Manager v1.0.0 (Debian/Go)")
 		return 0
+	case "tui":
+		return app.RunTUI()
 	case "client":
 		return app.RunClient(args[1:])
 	case "service":
@@ -116,4 +121,15 @@ func (app *App) Run(args []string) int {
 		fmt.Fprintf(app.Stderr, "Unknown command: '%s'. Run 'peloton --help' for usage.\n", args[0])
 		return 1
 	}
+}
+
+// RunTUI initializes and runs the interactive Charm Bubbletea TUI program.
+func (app *App) RunTUI() int {
+	model := tui.NewModel(app.TicketRepo, app.FinanceRepo, app.ClientRepo)
+	p := tea.NewProgram(model, tea.WithAltScreen())
+	if _, err := p.Run(); err != nil {
+		fmt.Fprintf(app.Stderr, "Error running TUI dashboard: %v\n", err)
+		return 1
+	}
+	return 0
 }

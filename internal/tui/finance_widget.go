@@ -2,6 +2,7 @@ package tui
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/charmbracelet/lipgloss"
 )
@@ -16,6 +17,9 @@ func (m Model) renderFinanceWidget() string {
 	if m.MonthlySummary.NetEarnings < 0 {
 		badge = "▼ DEFICIT"
 		badgeColor = lipgloss.Color("#E06C75")
+	} else if m.MonthlySummary.NetEarnings == 0 {
+		badge = "■ BREAK-EVEN"
+		badgeColor = lipgloss.Color("#ABB2BF")
 	}
 
 	style := lipgloss.NewStyle().
@@ -24,9 +28,11 @@ func (m Model) renderFinanceWidget() string {
 		Padding(0, 1).
 		MarginBottom(1)
 
+	monthName := time.Month(m.MonthlySummary.Month).String()
+
 	content := fmt.Sprintf(
-		"Monthly Balance (%d/%d): Jobs Completed: %d  |  Total Income: +$%.2f  |  Total Expenses: -$%.2f  |  Net: $%.2f [%s]",
-		m.MonthlySummary.Month, m.MonthlySummary.Year,
+		"📊 %s %d EARNINGS | Completed Jobs: %d  |  Income: +$%.2f  |  Expenses: -$%.2f  |  Net: $%.2f [%s]",
+		monthName, m.MonthlySummary.Year,
 		m.MonthlySummary.ServicesCount,
 		m.MonthlySummary.TotalIncome,
 		m.MonthlySummary.TotalExpense,
