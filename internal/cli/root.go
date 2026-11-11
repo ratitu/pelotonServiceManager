@@ -74,6 +74,9 @@ GLOBAL OPTIONS:
 
 COMMANDS:
   tui              Launch interactive desktop workbench dashboard (default when no args)
+  serve            Start embedded LAN web server for Android/mobile access
+                   --port <int>   HTTP port (default: 8080)
+                   --host <addr>  Bind host/interface (default: 0.0.0.0)
   client           Manage bicycle owners and client profiles
     add            Register a new client
     list           List all clients in the system
@@ -111,6 +114,8 @@ func (app *App) Run(args []string) int {
 		return 0
 	case "tui":
 		return app.RunTUI()
+	case "serve":
+		return app.RunServe(args[1:])
 	case "client":
 		return app.RunClient(args[1:])
 	case "service":
